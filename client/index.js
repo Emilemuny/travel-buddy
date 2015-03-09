@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('angular-prototype', ['ui.router', 'ngMessages'])
-  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
+  .config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -11,6 +11,8 @@ angular.module('angular-prototype', ['ui.router', 'ngMessages'])
 
       .state('register', {url:'/register', templateUrl:'/views/users/users.html', controller:'UsersCtrl'})
       .state('login', {url:'/login', templateUrl:'/views/users/users.html', controller:'UsersCtrl'});
+
+   $authProvider.github({clientId: '0f2f449e07affa7ca822'});
   }])
   .run(['$rootScope', 'User', function($rootScope, User){
     User.status().then(function(response){
