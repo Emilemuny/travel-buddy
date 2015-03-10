@@ -52,13 +52,40 @@ userSchema.statics.linkedin = function(payload, cb) {
     params = {
       oauth2_access_token: accessToken.access_token,
       format: 'json'
-    }
+    };
 
     Request.get({url:userApiUrl, qs:params, json:true}, (err, response, profile)=>{
       cb({linkedin:profile.id, displayName: `${profile.firstName} ${profile.lastName}`, photoUrl: profile.pictureUrl});
     });
   });
 };
+
+userSchema.statics.facebook = function(payload, cb) {
+  let accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
+  let graphApiUrl = 'https://graph.facebook.com/me';
+  let params = {
+    code: payload.code,
+    client_id: payload.clientId,
+    client_secret: process.env.FACEBOOK_SECRET,
+    redirect_uri: payload.redirectUri
+  };
+  Request.get({url:accessTokenUrl, qs: params, json: true}, (err, response, accessToken)=>{
+    let headers = {'User-Agent': 'Satellizer'};
+    accessToken = qs.parse(accessToken);
+    Request.get({url:graphApiUrl, qs:accessToken, headers:headers, json:true}, (err, response, profile)=>{
+    //  console.log('***RESPONSE-FACEBOOK**', response);
+      console.log('**Profile***', profile);
+      profile.pictureUrl = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+
+      cb({facebook:profile.id, displayName: profile.name, photoUrl: profile.pictureUrl});
+    });
+
+  });
+
+};
+
+
+
 
 userSchema.statics.create = function(provider, profile, cb) {
   let query = {};
