@@ -15,10 +15,10 @@ angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
    $authProvider.github({clientId: '0f2f449e07affa7ca822'});
    $authProvider.linkedin({clientId: '75v5gn8w2iarx8'});
    $authProvider.facebook({clientId: '1418892481739742'});
-   $authProvider.gmail({clientId: '762244371848-ttjag02m7npn6331djjp991t19dcgk81@developer.gserviceaccount.com'});
+//   $authProvider.gmail({clientId: '762244371848-ttjag02m7npn6331djjp991t19dcgk81@developer.gserviceaccount.com'});
   }])
-  .run(['$rootScope', 'User', function($rootScope, User){
-    User.status().then(function(response){
-      $rootScope.email = response.data.email;
-    });
+  .run(['$rootScope', '$window', '$auth', function($rootScope, $window, $auth){
+    if($auth.isAuthenticated()){
+      $rootScope.user = JSON.parse($window.localStorage.user);
+    }
   }]);

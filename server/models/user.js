@@ -11,9 +11,14 @@ let moment = require('moment');
 let User;
 
 let userSchema = mongoose.Schema({
+    email: {type: String, unique: true, lowercase: true},
+    password: {type: String, select: false},
     displayName: String,
     photoUrl: String,
     github: String,
+    google: String,
+    linkedin: String,
+    facebook: String,
     createdAt: {type: Date, default: Date.now, required: true}
 });
 
@@ -48,9 +53,9 @@ userSchema.statics.linkedin = function(payload, cb) {
     grant_type: 'authorization_code'
 
   };
-  Request.post(accessTokenUrl, {form: params, json:true}, (err, response, accessToken)=>{
-    params = {
-      oauth2_access_token: accessToken.access_token,
+  Request.post(accessTokenUrl, {form: params, json:true}, (err, response, body)=>{
+   let params = {
+      oauth2_access_token: body.access_token,
       format: 'json'
     };
 
@@ -60,7 +65,7 @@ userSchema.statics.linkedin = function(payload, cb) {
   });
 };
 
-userSchema.statics.gmail = function(payload, cb){
+userSchema.statics.google = function(payload, cb){
   let accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
   let peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
   let params = {
@@ -74,7 +79,8 @@ userSchema.statics.gmail = function(payload, cb){
      let headers = { Authorization: 'Bearer ' + accessToken };
 
      Request.get({url:peopleApiUrl, headers:headers, json: true }, (err, response, profile)=>{
-       console.log('****PROFILE-GMAIL', profile);
+       console.log('****PROFILE-google', profile);
+       cb({google:profile.sub, displayName:profile.name, photoUrl: profile.picture});
      });
   });
 };
@@ -102,12 +108,10 @@ userSchema.statics.facebook = function(payload, cb) {
 
 };
 
-
-
-
 userSchema.statics.create = function(provider, profile, cb) {
   let query = {};
   query[provider] = profile[provider];
+  console.log('****Query', query);
   User.findOne(query, (err, user)=>{
     if(user) {return cb(err, user);}
 
@@ -127,13 +131,9 @@ userSchema.methods.token = function() {
 };
 
 userSchema.statics.register = function(o, cb){
-  User.findOne({email:o.email}, function(err, user){
-    if(user){return cb(true);}
-
-    user = new User(o);
+    let user = new User(o);
     user.password = bcrypt.hashSync(o.password, 8);
     user.save(cb);
-  });
 };
 
 userSchema.statics.authenticate = function(o, cb){

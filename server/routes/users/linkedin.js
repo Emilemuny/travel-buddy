@@ -7,8 +7,10 @@ module.exports = {
   handler: function(request, reply) {
     User.linkedin(request.payload, profile=>{
      User.create('linkedin', profile, (err, user)=> {
+       console.log('***user***', user);
+       console.log('***user***', profile);
        let token = user.token();
-       reply({token:token, user:user});
+       reply({token:token, user:user, profile:profile});
      });
    });
   }
