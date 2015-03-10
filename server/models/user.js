@@ -1,3 +1,5 @@
+/* jshint camelcase:false */
+
 'use strict';
 
 let bcrypt = require('bcrypt');
@@ -27,7 +29,20 @@ userSchema.statics.github = function(payload, cb) {
     let headers = {'User-Agent':'Satellizer'};
     accessToken = qs.parse(accessToken);
     //console.log('the access token is ${accessToken}');
-    Request.get({url:userApiUrl, qs:accessToken, headers:headers, json:true}, cb);
+    Request.get({url:userApiUrl, qs:accessToken, headers:headers, json:true}, (err, response, profile)=>{
+      cb({github:profile.id, displayName: profile.name, photoUrl: profile.avatar_url});
+    });
+  });
+};
+
+userSchema.statics.create = function(provider, profile, cb) {
+  let query = {};
+  query[provider] = profile[provider];
+  User.findOne(query, (err, user)=>{
+    if(user) {return cb(err, user);}
+
+    let u = new User(profile);
+    u.save(cb);
   });
 };
 
