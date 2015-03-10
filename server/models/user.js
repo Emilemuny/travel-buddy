@@ -60,6 +60,25 @@ userSchema.statics.linkedin = function(payload, cb) {
   });
 };
 
+userSchema.statics.gmail = function(payload, cb){
+  let accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
+  let peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
+  let params = {
+    code: payload.code,
+    client_id: payload.clientId,
+    client_secret: process.env.GOOGLE_SECRET,
+    grant_type: 'authorization_code'
+  };
+  Request.post(accessTokenUrl, {json: true, form: params }, (err, response, token)=>{
+     let accessToken = token.access_token;
+     let headers = { Authorization: 'Bearer ' + accessToken };
+
+     Request.get({url:peopleApiUrl, headers:headers, json: true }, (err, response, profile)=>{
+       console.log('****PROFILE-GMAIL', profile);
+     });
+  });
+};
+
 userSchema.statics.facebook = function(payload, cb) {
   let accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
   let graphApiUrl = 'https://graph.facebook.com/me';
@@ -76,7 +95,6 @@ userSchema.statics.facebook = function(payload, cb) {
     //  console.log('***RESPONSE-FACEBOOK**', response);
       console.log('**Profile***', profile);
       profile.pictureUrl = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
-
       cb({facebook:profile.id, displayName: profile.name, photoUrl: profile.pictureUrl});
     });
 
@@ -107,8 +125,6 @@ userSchema.methods.token = function() {
 
   return jwt.encode(payload, process.env.TOKEN_SECRET);
 };
-
-
 
 userSchema.statics.register = function(o, cb){
   User.findOne({email:o.email}, function(err, user){
