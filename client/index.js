@@ -13,6 +13,7 @@ angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
       .state('login', {url:'/login', templateUrl:'/views/users/users.html', controller:'UsersCtrl'});
 
    $authProvider.github({clientId: '0f2f449e07affa7ca822'});
+   $authProvider.linkedin({clientId: '75v5gn8w2iarx8'});
   }])
   .run(['$rootScope', 'User', function($rootScope, User){
     User.status().then(function(response){
