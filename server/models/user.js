@@ -6,6 +6,8 @@ let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
 let Request = require('request');
 let qs = require('querystring');
+let jwt = require('jwt-simple');
+let moment = require('moment');
 let User;
 
 let userSchema = mongoose.Schema({
@@ -45,6 +47,17 @@ userSchema.statics.create = function(provider, profile, cb) {
     u.save(cb);
   });
 };
+
+userSchema.methods.token = function() {
+  let payload = {
+    sub: this._id,
+    iat: moment().unix(),
+    exp: moment().add(14, 'days').unix()
+  };
+
+  return jwt.encode(payload, process.env.TOKEN_SECRET);
+};
+
 
 
 userSchema.statics.register = function(o, cb){
