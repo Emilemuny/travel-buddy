@@ -11,6 +11,10 @@ angular.module('travel-buddy')
       return $http.get('/vacations');
     }
 
+    function show(vacationId) {
+      return $http.get('/vacations/' + vacationId);
+    }
 
-    return {create:create, find:find};
+
+    return {create:create, find:find, show:show};
   }]);

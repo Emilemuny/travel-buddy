@@ -11,9 +11,11 @@ table.table.table-hover
         
   tbody
     tr(ng-repeat='vacation in vacations')    
-      td {{vacation.title}}
+      td
+        a(ui-sref='vacations.show({vacationId:vacation._id})') {{vacation.title}}
       td {{vacation.departureDate | date: "yyyy-MM-dd"}}
       td {{vacation.arrivalDate | date: "yyyy-MM-dd"}}
       td {{vacation.departureAirport}}
       td {{vacation.arrivalAirport}}
+
         

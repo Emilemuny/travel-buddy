@@ -13,5 +13,6 @@ module.exports = [
   {method: 'post', path: '/auth/google', config: require('../routes/users/google')},
 
   {method: 'post', path: '/vacations', config: require('../routes/vacations/create')},
-  {method: 'get', path: '/vacations', config: require('../routes/vacations/index')}
+  {method: 'get', path: '/vacations', config: require('../routes/vacations/index')},
+  {method: 'get', path: '/vacations/{vacationId}', config: require('../routes/vacations/show')}
 ];
