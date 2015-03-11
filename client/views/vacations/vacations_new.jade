@@ -13,12 +13,12 @@ h1 Vacations new
         div(ng-if='vacationForm.departureDate.$touched && vacationform.departureDate.$invalid', ng-messages='vacationForm.departureDate.$error', ng-messages-include='/views/partials/form_validation_messages.html')
       .form-group
         label(for='arrivalDate') Arrival Date
-        input.form-control(type='date', name='arrivalDate', ng-model='vacation.departureDate', required)
-        div(ng-if='vacationForm.arrivalDate.$touched', ng-messages='vacationForm.arrivalDate.$error', ng-messages-include='/views/partials/form_validation_messages.html'
+        input.form-control(type='date', name='arrivalDate', ng-model='vacation.arrivalDate', required)
+        div(ng-if='vacationForm.arrivalDate.$touched', ng-messages='vacationForm.arrivalDate.$error', ng-messages-include='/views/partials/form_validation_messages.html')
       .form-group
         label(for='departureAirport') Departure Airport
         input.form-control(type='text', name='departureAirport', ng-model='vacation.departureAirport', required)      
-        div(ng-if='vacationForm.departureAirport.$touched', ng-messages='vacationForm.departureAirport.$error', ng-messages-include='/views/partials/form_validation_messages.html'
+        div(ng-if='vacationForm.departureAirport.$touched', ng-messages='vacationForm.departureAirport.$error', ng-messages-include='/views/partials/form_validation_messages.html')
       .form-group
         label(for='arrivalAirport') Arrival Airport
         input.form-control(type='text', name='arrivalAirport', ng-model='vacation.arrivalAirport', required)

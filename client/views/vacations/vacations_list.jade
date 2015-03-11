@@ -1,0 +1,19 @@
+h1 Vacation List
+
+table.table.table-hover
+  thead
+    tr
+      th Title
+      th Departure Date
+      th Arrival Date
+      th Departure Airport
+      th Arrival Airport
+        
+  tbody
+    tr(ng-repeat='vacation in vacations')    
+      td {{vacation.title}}
+      td {{vacation.departureDate | date: "yyyy-MM-dd"}}
+      td {{vacation.arrivalDate | date: "yyyy-MM-dd"}}
+      td {{vacation.departureAirport}}
+      td {{vacation.arrivalAirport}}
+        
