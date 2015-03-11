@@ -10,8 +10,8 @@ angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
       .state('contact', {url:'/contact', templateUrl:'/views/general/contact.html'})
 
       .state('vacations', {url:'/vacations', templateUrl:'/views/vacations/vacations.html', abstract: true})
-      .state('vacations.new', {url:'/new', templateUrl:'/views/vacations/vacations_new.html', controller:'VacationsCtrl'})
-      
+      .state('vacations.new', {url:'/new', templateUrl:'/views/vacations/vacations_new.html', controller:'VacationsNewCtrl'})
+
 
       .state('register', {url:'/register', templateUrl:'/views/users/users.html', controller:'UsersCtrl'})
       .state('login', {url:'/login', templateUrl:'/views/users/users.html', controller:'UsersCtrl'});
