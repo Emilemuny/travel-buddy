@@ -20,6 +20,7 @@ let userSchema = mongoose.Schema({
     linkedin: String,
     facebook: String,
     createdAt: {type: Date, default: Date.now, required: true}
+
 });
 
 userSchema.statics.github = function(payload, cb) {
@@ -78,7 +79,7 @@ userSchema.statics.google = function(payload, cb){
      let accessToken = token.access_token;
      let headers = { Authorization: 'Bearer ' + accessToken };
 
-     Request.get({url:peopleApiUrl, headers:headers, json: true }, (err, response, profile)=>{
+     Request.get({url:peopleApiUrl, headers:headers, json: true }, (err, response, profile) => {
        console.log('****PROFILE-google', profile);
        cb({google:profile.sub, displayName:profile.name, photoUrl: profile.picture});
      });
@@ -94,14 +95,15 @@ userSchema.statics.facebook = function(payload, cb) {
     client_secret: process.env.FACEBOOK_SECRET,
     redirect_uri: payload.redirectUri
   };
-  Request.get({url:accessTokenUrl, qs: params, json: true}, (err, response, accessToken)=>{
-    let headers = {'User-Agent': 'Satellizer'};
+  Request.get({url:accessTokenUrl, qs: params, json: true}, (err, response, accessToken) => {
+  //  let headers = {'User-Agent': 'Satellizer'};
     accessToken = qs.parse(accessToken);
-    Request.get({url:graphApiUrl, qs:accessToken, headers:headers, json:true}, (err, response, profile)=>{
-    //  console.log('***RESPONSE-FACEBOOK**', response);
+
+    Request.get({url:graphApiUrl, qs:accessToken, json:true}, (err, response, profile) => {
+     console.log('***AccessToken**', accessToken);
       console.log('**Profile***', profile);
-      profile.pictureUrl = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
-      cb({facebook:profile.id, displayName: profile.name, photoUrl: profile.pictureUrl});
+      let photoUrl = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+      cb({facebook:profile.id, displayName: profile.name, photoUrl: photoUrl});
     });
 
   });

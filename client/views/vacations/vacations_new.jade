@@ -1,0 +1,23 @@
+h1 Vacations new
+
+.row
+  .col-xs-4
+    form
+      .form-group
+        label(for='title') Title
+        input#email.form-control(type='text', name='title', ng-model='vacation.title')
+      .form-group
+        label(for='departureDate') Departure Date
+        input.form-control(type='date', name='departureDate', ng-model='vacation.departureDate')
+      .form-group
+        label(for='arrivalDate') Arrival Date
+        input.form-control(type='date', name='arrivalDate', ng-model='vacation.departureDate')
+      .form-group
+        label(for='departureAirport') Departure Airport
+        input.form-control(type='text', name='departureAirport', ng-model='vacation.departureAirport')      
+      .form-group
+        label(for='arrivalAirport') Arrival Airport
+        input.form-control(type='text', name='arrivalAirport', ng-model='vacation.arrivalAirport')
+      .form-group
+        button.btn.btn-default(type='submit', ng-click='submit(vacation)') Submit      
+  .col-xs-8
