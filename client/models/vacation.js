@@ -12,9 +12,17 @@ angular.module('travel-buddy')
     }
 
     function show(vacationId) {
-      return $http.get('/vacations/' + vacationId);
+      return $http.get(`/vacations/'${vacationId}`);
+    }
+
+    function getFlights(vacationId){
+      return $http.get(`/vacations/${vacationId}/flights`);
+    }
+
+    function purchaseFlight(vacationId, info){
+      return $http.post(`/vacations/${vacationId}/flights/purchase`, info)
     }
 
 
-    return {create:create, find:find, show:show};
+    return {create:create, find:find, show:show, getFlights:getFlights};
   }]);

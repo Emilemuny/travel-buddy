@@ -8,4 +8,11 @@ angular.module('travel-buddy')
       console.log('***Vac^^^^&^ation', $scope.vacation);
     });
 
+    $scope.getFlights = function(vacation){
+      Vacation.getFlights(vacation._id)
+      .then(response=>{
+        $scope.itineraries = response.data.PricedItineraries;
+      });
+    };
+
   }]);

@@ -16,5 +16,5 @@ module.exports = [
   {method: 'get', path: '/vacations', config: require('../routes/vacations/index')},
   {method: 'get', path: '/vacations/{vacationId}', config: require('../routes/vacations/show')},
 
-  {method: 'post', path: '/trips/flights', config: require('../routes/trip/flights')}
+  {method: 'get', path: '/vacations/{vacationId}/flights', config: require('../routes/vacations/flights')}
 ];
