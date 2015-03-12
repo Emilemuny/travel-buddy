@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose');
 var Request = require('request');
-var _ = require('lodash');
+//var _ = require('lodash');
 var moment = require('moment');
 var Trip;
 
@@ -28,7 +28,7 @@ tripSchema.statics.flights = function(o, cb) {
       'Authorization': process.env.SABRE_KEY,
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-  
+
     body: 'grant_type=client_credentials'
   };
 

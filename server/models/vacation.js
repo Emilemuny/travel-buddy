@@ -16,9 +16,54 @@ let vacationSchema = mongoose.Schema({
   returnDate: {type: Date, required: true},
   title: {type: String, required: true},
   userId: {type: mongoose.Schema.ObjectId, ref: 'User', required: true},
-  createdAt: {type: Date, default: Date.now, required: true}
+  createdAt: {type: Date, default: Date.now, required: true},
+  flight: {
+    charge: {
+      id: String,
+      amount: Number,
+      date: {type:Date, default:Date.now}
+    },
+    itinerary: {
+      leaving: [
+        {
+          departure: String,
+          arrival: String,
+          duration: Number,
+          flight: String,
+          airline: String,
+        }
+      ],
+      returning: [
+        {
+          departure: String,
+          arrival: String,
+          duration: Number,
+          flight: String,
+          airline: String,
+        }
+      ]
+    }
+  }
 });
 
+vacationSchema.methods.itinerary = function(o){
+  this.flight.itinerary.leaving = parseItinerary(0,o);
+  this.flight.itinerary.returning = parseItinerary(1,o);
+
+};
+
+function parseItinerary(index, o){
+  console.log('***HELLO***');
+  return o.itinerary.OriginDestinationOptions.OriginDestinationOption[index].FlightSegment.map(s=>{
+    return {
+      departure: s.DepartureAirport.LocationCode,
+      arrival: s.ArrivalAirport.LocationCode,
+      duration: s.ElapsedTime,
+      flight: s.OperatingAirline.FlightNumber,
+      airline: s.OperatingAirline.Code
+    };
+  });
+}
 
 vacationSchema.methods.purchase = function(o, cb){
     stripe.charges.create({
@@ -26,7 +71,15 @@ vacationSchema.methods.purchase = function(o, cb){
     currency: 'usd',
     source: o.token,
     description: o.description
-  }, cb);
+  }, (err, charge)=>{
+    if(!err){
+      this.flight.charge.id = charge.id;
+      this.flight.charge.amount = charge.amount / 100;
+
+    }
+
+     cb(err, charge);
+  });
 };
 
 vacationSchema.methods.flights = function(cb){
