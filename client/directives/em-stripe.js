@@ -1,3 +1,5 @@
+/* global StripeCheckout:true */
+
 'use strict';
 
 angular.module('travel-buddy')
@@ -7,18 +9,25 @@ angular.module('travel-buddy')
     o.restrict = 'A';
     o.templateUrl = '/directives/em-stripe.html';
     o.scope = {
-    cost: '=',
-    title: '='
+      vacationId: '=',
+      cost: '=',
+      title: '=',
+      itinerary: '='
     };
-    o.link = function(scope, element, attrs){};
-    o.controller = ['$scope', ($scope)=>{
-
+    o.controller = ['$scope', 'Vacation', ($scope, Vacation)=>{
       let handler = StripeCheckout.configure({
-    key: 'pk_test_JGEKrKiQpasBibRuFHFbQ0KK',
-    image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-    token: function(token) {
+          key: 'pk_test_JGEKrKiQpasBibRuFHFbQ0KK',
+          image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+          token: function(token) {
     //  console.log('token', token);
-    
+           let info = {};
+           info.token = token.id;
+           info.cost = $scope.cost * 100;
+           info.description = $scope.title;
+           info.itinerary = $scope.itinerary;
+
+
+           Vacation.purchaseFlight($scope.vacationId, info);
     }
   });
   $scope.purchase = function() {
@@ -29,10 +38,7 @@ angular.module('travel-buddy')
     });
   };
 
-
     }];
 
-
-
-    return o;
+  return o;
   }]);

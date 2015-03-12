@@ -1,5 +1,6 @@
 'use strict';
-var Vacation = require('../../models/vacation');
+
+let Vacation = require('../../models/vacation');
 let Joi = require('joi');
 
 
@@ -8,7 +9,7 @@ module.exports = {
     payload: {
       title: Joi.string().required(),
       departureDate: Joi.date().required(),
-      arrivalDate: Joi.date().required(),
+      returnDate: Joi.date().required(),
       departureAirport: Joi.string().length(3),
       arrivalAirport: Joi.string().length(3)
     }

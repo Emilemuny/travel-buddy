@@ -1,6 +1,6 @@
 'use strict';
 
-var Vacation = require('../../models/vacation');
+let Vacation = require('../../models/vacation');
 
 module.exports = {
   handler: function(request,reply){

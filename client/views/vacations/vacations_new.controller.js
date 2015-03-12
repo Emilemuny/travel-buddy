@@ -1,13 +1,9 @@
 'use strict';
 
 angular.module('travel-buddy')
-  .controller('VacationsNewCtrl', ['$scope', 'Vacation', ($scope, Vacation)=>{
-   $scope.submit = function(vacation){
-    // alert(vacation);
-     Vacation.create(vacation)
-     .then(response=>{
-       console.log('the response is', response);
-       
-     });
-   };
+  .controller('VacationsNewCtrl', ['$scope', '$state', 'Vacation', ($scope, $state, Vacation)=>{
+    $scope.submit = function(vacation){
+      Vacation.create(vacation)
+      .then(response=>$state.go('vacations.show', {vacationId:response.data.vacation._id}));
+    };
   }]);

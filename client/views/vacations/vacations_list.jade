@@ -5,16 +5,15 @@ table.table.table-hover
     tr
       th Title
       th Departure Date
-      th Arrival Date
+      th Return Date
       th Departure Airport
       th Arrival Airport
         
   tbody
-    tr(ng-repeat='vacation in vacations')    
-      td
-        a(ui-sref='vacations.show({vacationId:vacation._id})') {{vacation.title}}
+    tr(ng-repeat='vacation in vacations', ng-click='show(vacation)')    
+      td {{vacation.title}}
       td {{vacation.departureDate | date: "yyyy-MM-dd"}}
-      td {{vacation.arrivalDate | date: "yyyy-MM-dd"}}
+      td {{vacation.returnDate | date: "yyyy-MM-dd"}}
       td {{vacation.departureAirport}}
       td {{vacation.arrivalAirport}}
 

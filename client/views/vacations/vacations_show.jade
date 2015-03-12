@@ -11,14 +11,14 @@ div(em-stripe cost='300')
         tr
           th Title
           th Departure
-          th Arrival
+          th Return Date
           th Leaving
           th Arriving
       tbody
         tr
           td {{vacation.title}}
           td {{vacation.departureDate | date: 'yyyy-MM-dd'}}
-          td {{vacation.arrivalDate | date: 'yyyy-MM-dd'}}
+          td {{vacation.returnDate | date: 'yyyy-MM-dd'}}
           td {{vacation.departureAirport}}
           td {{vacation.arrivalAirport}}
 
@@ -36,7 +36,7 @@ div(em-stripe cost='300')
                 th Time (mins)
             tbody
               tr(ng-repeat='itinerary in itineraries')
-                td: div(em-stripe cost='itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount', title='vacation.title') 
+                td: div(em-stripe itinerary='itinerary.AirItinerary', vacationId='vacation._id', cost='itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount', title='vacation.title') 
                 td {{itinerary.AirItineraryPricingInfo.ItinTotalFare.BaseFare.Amount | currency}}
                 td: p(ng-repeat='tax in itinerary.AirItineraryPricingInfo.ItinTotalFare.Taxes.Tax') {{tax.Amount | currency}} : {{tax.TaxCode}}
                 td {{itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount | currency}}
