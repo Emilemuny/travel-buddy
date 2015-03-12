@@ -6,6 +6,7 @@ let mongoose = require('mongoose');
 let req = require('request');
 let qs = require('querystring');
 let moment = require('moment');
+let stripe = require('stripe')(process.env.STRIPE_KEY);
 let Vacation;
 
 let vacationSchema = mongoose.Schema({
@@ -17,6 +18,16 @@ let vacationSchema = mongoose.Schema({
   userId: {type: mongoose.Schema.ObjectId, ref: 'User', required: true},
   createdAt: {type: Date, default: Date.now, required: true}
 });
+
+
+vacationSchema.methods.purchase = function(o, cb){
+    stripe.charges.create({
+    amount: o.cost,
+    currency: 'usd',
+    source: o.token,
+    description: o.description
+  }, cb);
+};
 
 vacationSchema.methods.flights = function(cb){
   let self = this;
