@@ -1,8 +1,19 @@
-h1 Vacations show
+h1 {{vacation.title}}
 
-
-p {{vacation.title}}
-p {{vacation.departureDate}}
-p {{vacation.arrivalDate}}
-p {{vacation.departureAirport}}
-p {{vacation.arrivalAirport}}
+.row
+  .col-xs-6
+    table.table.table-hover
+      thead
+        tr
+          th Title
+          th Departure
+          th Arrival
+          th Leaving
+          th Arriving
+      tbody
+        tr
+          td {{vacation.title}}
+          td {{vacation.departureDate | date: 'yyyy-MM-dd'}}
+          td {{vacation.arrivalDate | date: 'yyyy-MM-dd'}}
+          td {{vacation.departureAirport}}
+          td {{vacation.arrivalAirport}}
