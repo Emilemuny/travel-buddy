@@ -9,6 +9,7 @@ module.exports = {
       User.create('google', profile, (err, user)=> {
 
         let token = user.token();
+        console.log('****GOOGLEtoken', token);
         reply({token:token, user:user});
       });
     });

@@ -10,7 +10,11 @@ angular.module('travel-buddy')
       return $http.get('/users/' + userId);
     }
 
-    return {find:find, show:show};
+    function update(userId, user){
+    return $http.put(`/users/${userId}`, user);
+  }
+
+    return {find:find, show:show, update:update};
 
 
   }]);

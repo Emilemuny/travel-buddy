@@ -1,19 +1,16 @@
 h1 {{vacation.title}}
 
-
-h1 this is my stripe directive
-div(em-stripe cost='300') 
-
 .row
   .col-xs-6
-    table.table.table-hover
+    h3 Vacation Information
+    table.table
       thead
         tr
           th Title
           th Departure
-          th Return Date
-          th Leaving
-          th Arriving
+          th Return
+          th Takeoff
+          th Landing
       tbody
         tr
           td {{vacation.title}}
@@ -21,39 +18,94 @@ div(em-stripe cost='300')
           td {{vacation.returnDate | date: 'yyyy-MM-dd'}}
           td {{vacation.departureAirport}}
           td {{vacation.arrivalAirport}}
+  .col-xs-6
 
 div(ng-if='vacation.flight.charge.id')
+  .row
+    .col-xs-4
+      h3 Leaving
+      table.table
+        thead
+          tr
+            th Airline
+            th Flight
+            th Duration
+            th Departure
+            th Arrival
+        tbody
+          tr(ng-repeat='segment in vacation.flight.itinerary.leaving')
+            td {{segment.airline}}
+            td {{segment.flight}}
+            td {{segment.duration}}
+            td {{segment.departure}}
+            td {{segment.arrival}}
+    .col-xs-4
+      h3 Returning
+      table.table
+        thead
+          tr
+            th Airline
+            th Flight
+            th Duration
+            th Departure
+            th Arrival
+        tbody
+          tr(ng-repeat='segment in vacation.flight.itinerary.returning')
+            td {{segment.airline}}
+            td {{segment.flight}}
+            td {{segment.duration}}
+            td {{segment.departure}}
+            td {{segment.arrival}}
+    .col-xs-4
+
+  .row
+    .col-xs-4
+      h3 Charge Information
+      table.table
+        thead
+          tr
+            th Id
+            th Amount
+            th Date
+        tbody
+          tr
+            td {{vacation.flight.charge.id}}
+            td {{vacation.flight.charge.amount | currency}}
+            td {{vacation.flight.charge.date | date: 'yyyy-MM-dd'}}
+    .col-xs-8
+
+div(ng-if='!vacation.flight.charge.id')
   button.btn(ng-click='getFlights(vacation)') Get Flights
   div(em-stripe-brain)
 
   table.table.table-striped
-  thead
-    tr
-      th Purchase
-      th Base (usd)
-      th Taxes (usd)
-      th Total (usd)
-      th Segments
-      th Time (mins)
-  tbody
-    tr(ng-repeat='itinerary in itineraries')
-      td: div(em-stripe itinerary='itinerary.AirItinerary', vacation='vacation._id', cost='itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount', title='vacation.title') 
-      td {{itinerary.AirItineraryPricingInfo.ItinTotalFare.BaseFare.Amount | currency}}
-      td: p(ng-repeat='tax in itinerary.AirItineraryPricingInfo.ItinTotalFare.Taxes.Tax') {{tax.Amount | currency}} : {{tax.TaxCode}}
-      td {{itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount | currency}}
-      td
-        div(ng-repeat='option in itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption')
-          table.table
-            thead
-              tr
-                th Flight
-                th Time
-                th Arrival
-                th Departure
-            tbody
-              tr(ng-repeat='segment in option.FlightSegment')
-                td {{segment.FlightNumber}}
-                td {{segment.ElapsedTime}}
-                td {{segment.ArrivalAirport.LocationCode}}
-                td {{segment.DepartureAirport.LocationCode}}
-      td: ol: li(ng-repeat='option in itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption') {{option.ElapsedTime}}
+    thead
+      tr
+        th Purchase
+        th Base (usd)
+        th Taxes (usd)
+        th Total (usd)
+        th Segments
+        th Time (mins)
+    tbody
+      tr(ng-repeat='itinerary in itineraries')
+        td: div(em-stripe itinerary='itinerary.AirItinerary', vacation='vacation._id', cost='itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount', description='vacation.title')
+        td {{itinerary.AirItineraryPricingInfo.ItinTotalFare.BaseFare.Amount | currency}}
+        td: p(ng-repeat='tax in itinerary.AirItineraryPricingInfo.ItinTotalFare.Taxes.Tax') {{tax.Amount | currency}} : {{tax.TaxCode}}
+        td {{itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount | currency}}
+        td
+          div(ng-repeat='option in itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption')
+            table.table
+              thead
+                tr
+                  th Flight
+                  th Time
+                  th Arrival
+                  th Departure
+              tbody
+                tr(ng-repeat='segment in option.FlightSegment')
+                  td {{segment.FlightNumber}}
+                  td {{segment.ElapsedTime}}
+                  td {{segment.ArrivalAirport.LocationCode}}
+                  td {{segment.DepartureAirport.LocationCode}}
+        td: ol: li(ng-repeat='option in itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption') {{option.ElapsedTime}}

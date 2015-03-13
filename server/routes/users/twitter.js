@@ -11,8 +11,9 @@ module.exports = {
     }else{
       User.twitter(request.query, profile=>{
         User.create('twitter', profile, (err, user)=>{
-
+          console.log('**TwitterfromSERVER');
           let token = user.token();
+          console.log('***TwitterToken', token);
           reply({token:token, user:user});
         });
       });

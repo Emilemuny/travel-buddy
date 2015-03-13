@@ -20,7 +20,8 @@ angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
 
   .state('users', {url:'/users', templateUrl:'views/users/users.html', abstract: true})
   .state('users.list', {url: '', templateUrl:'/views/users/users_list.html', controller: 'UsersListCtrl'})
-  .state('users.show', {url: '/{userId}', templateUrl:'/views/users/user_show.html', controller: 'UserShowCtrl'});
+  .state('users.show', {url: '/{userId}', templateUrl:'/views/users/user_show.html', controller: 'UserShowCtrl'})
+  .state('profile', {url:'/profile', templateUrl:'/views/users/profile.html', controller:'UsersProfileCtrl'});
 
   $authProvider.github({clientId: '0f2f449e07affa7ca822'});
   $authProvider.linkedin({clientId: '75v5gn8w2iarx8'});

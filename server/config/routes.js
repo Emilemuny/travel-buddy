@@ -21,5 +21,6 @@ module.exports = [
   {method: 'post', path: '/vacations/{vacationId}/flights/purchase', config: require('../routes/vacations/purchase-flight')},
 
   {method: 'get', path: '/users', config: require('../routes/users/index')},
-  {method: 'get', path: '/users/{userId}', config: require('../routes/users/show')}
+  {method: 'get', path: '/users/{userId}', config: require('../routes/users/show')},
+  {method: 'put', path: '/users/{userId}', config: require('../routes/users/update')}
 ];

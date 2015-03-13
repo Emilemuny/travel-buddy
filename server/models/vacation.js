@@ -67,16 +67,15 @@ function parseItinerary(index, o){
 
 vacationSchema.methods.purchase = function(o, cb){
     stripe.charges.create({
-    amount: o.cost,
-    currency: 'usd',
-    source: o.token,
-    description: o.description
+      amount: o.cost,
+      currency: 'usd',
+      source: o.token,
+      description: o.description
   }, (err, charge)=>{
     if(!err){
       this.flight.charge.id = charge.id;
       this.flight.charge.amount = charge.amount / 100;
-      this.flight.charge.date = charge.date;
-
+      this.flight.charge.date = new Date();
     }
 
      cb(err, charge);

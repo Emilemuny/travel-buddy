@@ -15,6 +15,7 @@ let userSchema = mongoose.Schema({
     password: {type: String, select: false},
     displayName: String,
     photoUrl: String,
+    phone: String,
     github: String,
     google: String,
     linkedin: String,
@@ -42,8 +43,8 @@ userSchema.statics.preTwitter = function(cb){
 userSchema.statics.twitter = function(query, cb){
   let accessTokenUrl = 'https://api.twitter.com/oauth/access_token';
   let accessTokenOauth = {
-    consumer_key: process.env.TWITTER_KEY,
-    consumer_secret: process.env.TWITTER_SECRET,
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
     token: query.oauth_token,
     verifier: query.oauth_verifier
   };
@@ -94,7 +95,7 @@ userSchema.statics.facebook = function(payload, cb) {
 
 userSchema.statics.linkedin = function(payload, cb) {
   let accessTokenUrl = 'https://www.linkedin.com/uas/oauth2/accessToken';
-  let peopleApiUrl = 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)';
+  let userApiUrl = 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)';
   let params = {
     code: payload.code,
     client_id: payload.clientId,
@@ -104,12 +105,12 @@ userSchema.statics.linkedin = function(payload, cb) {
   };
 
   Request.post(accessTokenUrl, {form: params, json:true}, (err, response, accessToken) => {
-    let params = {
+      params = {
       oauth2_access_token: accessToken.access_token,
       format: 'json'
     };
 
-    Request.get({url: peopleApiUrl, qs: params, json: true}, (err, response, profile) => {
+    Request.get({url: userApiUrl, qs: params, json: true}, (err, response, profile) => {
       cb({ linkedin: profile.id, displayName: `${profile.firstName} ${profile.lastName}`, photoUrl: profile.pictureUrl});
     });
   });
