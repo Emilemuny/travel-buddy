@@ -7,6 +7,11 @@ angular.module('travel-buddy')
       $scope.vacation = response.data.vacation;
     });
 
+    $scope.$on('flight-purchased', (event, vacation)=>{
+      $scope.vacation = vacation;
+      console.log('I am the show controller, here is my vacation', vacation);
+    });
+
     $scope.getFlights = function(vacation){
       Vacation.getFlights(vacation._id)
       .then(response=>{

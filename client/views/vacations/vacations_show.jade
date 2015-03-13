@@ -22,11 +22,11 @@ div(em-stripe cost='300')
           td {{vacation.departureAirport}}
           td {{vacation.arrivalAirport}}
 
+div(ng-if='vacation.flight.charge.id')
+  button.btn(ng-click='getFlights(vacation)') Get Flights
+  div(em-stripe-brain)
 
-button.btn(ng-click='getFlights(vacation)') Get Flights
-div(em-stripe-brain)
-
-table.table.table-striped
+  table.table.table-striped
   thead
     tr
       th Purchase

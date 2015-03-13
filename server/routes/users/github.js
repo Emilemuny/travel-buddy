@@ -9,6 +9,8 @@ module.exports = {
       User.create('github', profile, (err, user)=> {
         console.log('***user***', user);
         let token = user.token();
+
+        console.log('***TokenGITHUBSERVER', token);
         reply({token:token, user:user});
       });
     });

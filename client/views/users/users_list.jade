@@ -1,0 +1,19 @@
+h1 List users page
+
+
+table.table.table-hover
+  thead
+    tr
+      th Name
+      th Picture
+    
+        
+  tbody
+    tr(ng-repeat='user in users')    
+      td 
+        a.name-truncate(ui-sref='users.show({userId:user._id})'){{user.displayName}}
+      td 
+        img.img-responsive(src='{{user.photoUrl}}', height='120', width='160')
+    
+
+        

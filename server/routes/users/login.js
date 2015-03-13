@@ -13,9 +13,9 @@ module.exports = {
   },
   handler: function(request, reply) {
     User.authenticate(request.payload, function(err, user) {
-      if(err){reply().code(400);}
+      if(err){ return reply().code(400);}
+
       let token = user.token();
-      user.password = null;
       reply({token:token, user:user});
     });
   }

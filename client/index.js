@@ -14,13 +14,19 @@ angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
   .state('vacations.new', {url:'/new', templateUrl:'/views/vacations/vacations_new.html', controller:'VacationsNewCtrl'})
   .state('vacations.show', {url:'/{vacationId}', templateUrl:'/views/vacations/vacations_show.html', controller:'VacationsShowCtrl'})
 
-  .state('register', {url:'/register', templateUrl:'/views/users/users.html', controller:'UsersCtrl'})
-  .state('login', {url:'/login', templateUrl:'/views/users/users.html', controller:'UsersCtrl'});
+  .state('register', {url:'/register', templateUrl:'/views/users/users_auth.html', controller:'UsersCtrl'})
+  .state('login', {url:'/login', templateUrl:'/views/users/users_auth.html', controller:'UsersCtrl'})
+
+
+  .state('users', {url:'/users', templateUrl:'views/users/users.html', abstract: true})
+  .state('users.list', {url: '', templateUrl:'/views/users/users_list.html', controller: 'UsersListCtrl'})
+  .state('users.show', {url: '/{userId}', templateUrl:'/views/users/user_show.html', controller: 'UserShowCtrl'});
 
   $authProvider.github({clientId: '0f2f449e07affa7ca822'});
   $authProvider.linkedin({clientId: '75v5gn8w2iarx8'});
   $authProvider.facebook({clientId: '1418892481739742'});
   $authProvider.google({clientId: '762244371848-ttjag02m7npn6331djjp991t19dcgk81@developer.gserviceaccount.com'});
+  $authProvider.twitter({url: '/auth/twitter'});
 }])
 .run(['$rootScope', '$window', '$auth', function($rootScope, $window, $auth){
   if($auth.isAuthenticated()){

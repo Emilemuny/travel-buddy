@@ -14,13 +14,13 @@ angular.module('travel-buddy')
   };
   o.controller = ['$rootScope', '$scope', ($rootScope, $scope)=>{
     $scope.purchase = function() {
-      var info = {
+      let info = {
         vacation: $scope.vacation,
         cost: $scope.cost * 100,
         description: $scope.description,
         itinerary: $scope.itinerary
       };
-
+       console.log('Stripe INFO:', info);
       $rootScope.$broadcast('purchase',info);
     };
   }];

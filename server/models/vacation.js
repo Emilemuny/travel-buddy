@@ -75,6 +75,7 @@ vacationSchema.methods.purchase = function(o, cb){
     if(!err){
       this.flight.charge.id = charge.id;
       this.flight.charge.amount = charge.amount / 100;
+      this.flight.charge.date = charge.date;
 
     }
 

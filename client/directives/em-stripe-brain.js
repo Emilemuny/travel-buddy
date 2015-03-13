@@ -9,7 +9,7 @@ angular.module('travel-buddy')
   o.restrict = 'A';
   o.templateUrl = '/directives/em-stripe-brain.html';
   o.scope = {};
-  o.controller = ['$scope', 'Vacation', ($scope, Vacation)=>{
+  o.controller = ['$rootScope','$scope', 'Vacation', ($rootScope, $scope, Vacation)=>{
     let data;
     let handler = StripeCheckout.configure({
       key: 'pk_test_JGEKrKiQpasBibRuFHFbQ0KK',
@@ -18,6 +18,9 @@ angular.module('travel-buddy')
         console.log('token', token);
         data.token = token.id;
         Vacation.purchaseFlight(data.vacation, data);
+        o.then(response=>{
+           $rootScope.$broadcast('flight-purchased', response.data);
+        });
       }
     });
 

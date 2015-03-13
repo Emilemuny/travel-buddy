@@ -8,11 +8,11 @@ nav.navbar.navbar-default(ng-controller='NavCtrl')
         span.icon-bar
       a.navbar-brand(ui-sref='home') Travel-buddy
     #navbar.collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-right
+      ul.nav.navbar-nav.navbar-right(ng-hide='user')
         li: a(ui-sref='register'): i.fa.fa-user-plus &nbsp; Register
         li: a(ui-sref='login'): i.fa.fa-key &nbsp; Login
+      ul.nav.navbar-nav.navbar-right(ng-show='user')
         li: a(ui-sref='vacations.list') My Vacations
-        li.divider
         li: a(ui-sref='vacations.new'): i.fa.fa-plane &nbsp; New Vacation
         li: a(href='#', ng-click='logout()') {{user.displayName || user.email}}
       ul.nav.navbar-nav.navbar-right
