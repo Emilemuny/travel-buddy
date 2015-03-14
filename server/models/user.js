@@ -4,14 +4,14 @@
 
 let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
-let Request = require('request');
 let qs = require('querystring');
-let jwt = require('jwt-simple');
+let Request = require('request');
 let moment = require('moment');
+let jwt = require('jwt-simple');
 let User;
 
 let userSchema = mongoose.Schema({
-    email: {type: String, lowercase: true},
+    email: String,
     password: {type: String, select: false},
     displayName: String,
     photoUrl: String,
@@ -30,7 +30,7 @@ userSchema.statics.preTwitter = function(cb){
   let requestTokenOauth = {
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    callback: 'http://127.0.0.1:3333/auth/twitter'
+    callback: 'http://127.0.0.1:3333'
   };
 
     Request.post({url:requestTokenUrl, oauth:requestTokenOauth}, (err, response, body)=>{
