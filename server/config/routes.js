@@ -12,6 +12,7 @@ module.exports = [
   {method: 'post', path: '/auth/facebook', config: require('../routes/users/facebook')},
   {method: 'post', path: '/auth/google', config: require('../routes/users/google')},
   {method: 'get', path: '/auth/twitter', config: require('../routes/users/twitter')},
+  {method: 'post', path: '/auth/instagram', config: require('../routes/users/instagram')},
 
   {method: 'post', path: '/vacations', config: require('../routes/vacations/create')},
   {method: 'get', path: '/vacations', config: require('../routes/vacations/index')},

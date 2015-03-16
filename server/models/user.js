@@ -21,6 +21,7 @@ let userSchema = mongoose.Schema({
     linkedin: String,
     facebook: String,
     twitter: String,
+    instagram: String,
     createdAt: {type: Date, default: Date.now, required: true}
 });
 
@@ -134,6 +135,27 @@ userSchema.statics.google = function(payload, cb) {
     });
   });
 };
+
+userSchema.statics.instagram = function(payload, cb) {
+  let accessTokenUrl = 'https://api.instagram.com/oauth/access_token';
+//  let userApiUrl = 'https://api.instagram.com/v1/users/{user}';
+  let params = {
+    code: payload.code,
+    client_id: payload.clientId,
+    redirect_uri: 'http://localhost:3333',
+    client_secret: process.env.INSTAGRAM_SECRET,
+    grant_type: 'authorization_code'
+  };
+  Request.post(accessTokenUrl, { json: true, form: params }, (err, response, body) => {
+    // let accessToken = token.access_token;
+    // let headers = { Authorization: 'Bearer ' + accessToken };
+
+       console.log('INSTABODYPROFILE****', body.user);
+      cb({instagram:body.user.id, displayName:body.user.username, photoUrl: body.user.profile_picture});
+    });
+
+};
+
 
 
 userSchema.statics.create = function(provider, profile, cb){

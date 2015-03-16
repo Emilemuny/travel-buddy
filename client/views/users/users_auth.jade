@@ -18,9 +18,11 @@ h1 {{name}}
       .form-group
         button.btn.btn-default(type='submit', ng-click='submit(user)') {{name}}
       .form-group(ng-show='name === "Login"')
+        button.btn.btn-default(ng-click='authenticate("instagram")') Instagram    
         button.btn.btn-default(ng-click='authenticate("github")') Github
         button.btn.btn-default(ng-click='authenticate("linkedin")') LinkedIn
         button.btn.btn-default(ng-click='authenticate("facebook")') Facebook
         button.btn.btn-default(ng-click='authenticate("google")') Google 
-        button.btn.btn-default(ng-click='authenticate("twitter")') Twitter           
+        button.btn.btn-default(ng-click='authenticate("twitter")') Twitter     
+         
   .col-xs-8
