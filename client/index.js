@@ -1,11 +1,18 @@
 'use strict';
 
-angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
-.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider){
+angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer', 'uiGmapgoogle-maps', 'ngGeolocation'])
+.config(['$stateProvider', '$urlRouterProvider', '$authProvider', 'uiGmapGoogleMapApiProvider', function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoogleMapApiProvider){
+
+  uiGmapGoogleMapApiProvider.configure({
+    key: 'AIzaSyBMBTI7HoN5xy3HJdQMCQpAgKYe1SwsF7o',
+    v: '3.17',
+    libraries: 'places'
+  });
+
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
-  .state('home', {url:'/', templateUrl:'/views/general/home.html'})
+  .state('home', {url:'/', templateUrl:'/views/general/home.html', controller: 'HomepageMapCtrl'})
   .state('faq', {url:'/faq', templateUrl:'/views/general/faq.html'})
   .state('contact', {url:'/contact', templateUrl:'/views/general/contact.html'})
 
@@ -26,7 +33,6 @@ angular.module('travel-buddy', ['ui.router', 'ngMessages', 'satellizer'])
   $authProvider.github({clientId: '0f2f449e07affa7ca822'});
   $authProvider.linkedin({clientId: '75v5gn8w2iarx8'});
   $authProvider.facebook({clientId: '1418892481739742'});
-//  $authProvider.instagram({clientId: '84bfc810b1da4d31b678b2b528802a8d'});
   $authProvider.google({clientId: '762244371848-ttjag02m7npn6331djjp991t19dcgk81@developer.gserviceaccount.com'});
   $authProvider.twitter({url: '/auth/twitter'});
   $authProvider.oauth2({
