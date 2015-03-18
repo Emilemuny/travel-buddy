@@ -36,6 +36,7 @@
     "bcrypt": "^0.8.1",
     "good": "^5.1.2",
     "good-console": "^4.1.0",
+    "googlemaps": "^0.1.20",
     "hapi": "^8.2.0",
     "hapi-auth-jwt": "^2.1.0",
     "joi": "^6.0.4",

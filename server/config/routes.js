@@ -23,5 +23,6 @@ module.exports = [
 
   {method: 'get', path: '/users', config: require('../routes/users/index')},
   {method: 'get', path: '/users/{userId}', config: require('../routes/users/show')},
-  {method: 'put', path: '/users/{userId}', config: require('../routes/users/update')}
+  {method: 'put', path: '/users/{userId}', config: require('../routes/users/update')},
+
 ];
